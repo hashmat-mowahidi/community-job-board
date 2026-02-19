@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,31 +10,33 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="bg-gray-50 text-gray-900 antialiased font-sans">
 
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <nav class="container mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="/" class="text-2xl font-black tracking-tight text-blue-600">
+            <a href="#" class="text-2xl font-black tracking-tight text-blue-600">
                 DEV<span class="text-gray-800">JOBS</span>
             </a>
 
             <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
-                <a href="/listings" class="hover:text-blue-600 transition">Browse Jobs</a>
-                
+                <!-- <a href="/listings" class="hover:text-blue-600 transition">Browse Jobs</a> -->
+
                 @auth
-                    <a href="/dashboard" class="hover:text-blue-600 transition">My Postings</a>
-                    <a href="/listings/create" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-                        Post a Job
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="text-gray-500 hover:text-red-500 transition">Logout</button>
-                    </form>
+                <!-- <a href="/dashboard" class="hover:text-blue-600 transition">My Postings</a> -->
+                <a href="{{route('listings.create')}}"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Post a Job
+                </a>
+                <a href="{{ route('logout') }}" class="text-gray-600 hover:text-blue-600 transition">
+                    Logout
+                </a>
+
                 @else
-                    <a href="/login" class="text-gray-600 hover:text-blue-600 transition">Login</a>
-                    <a href="/register" class="border border-blue-600 text-blue-600 px-5 py-2 rounded-lg hover:bg-blue-50 transition">
-                        For Companies
-                    </a>
+                <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 transition">Login</a>
+                <!-- <a href="register" class="border border-blue-600 text-blue-600 px-5 py-2 rounded-lg hover:bg-blue-50 transition">
+                    For Companies
+                </a> -->
                 @endauth
             </div>
         </nav>
@@ -60,4 +63,5 @@
     </footer>
 
 </body>
+
 </html>
