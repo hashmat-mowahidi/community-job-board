@@ -5,50 +5,83 @@
             <h1 class="text-4xl font-bold text-gray-900">Find a Developer Job</h1>
             <p class="text-gray-600 mt-2">The simplest way to browse community postings.</p>
 
+            <form action="{{route('home')}}" method="get">
+                @csrf
+                <div class="mt-10 max-w-xl mx-auto relative">
+                    <input type="text" name="search"
+                        placeholder="Search by 'Remote', 'title', 'company name'..."
+                        class="w-full p-4 rounded-lg border border-gray-300 shadow-sm">
+                    <button class="absolute right-2 top-2 bg-gray-300 px-6 py-2 rounded-lg cursor-pointer
+                font-bold hover:bg-blue-500 transition">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
 
-            <div class="mt-10 max-w-xl mx-auto relative">
-                <input type="text"
-                    placeholder="Search by 'Remote', 'Senior', 'Frontend'..."
-                    class="w-full p-4 rounded-lg border border-gray-300 shadow-sm">
-                <button class="absolute right-2 top-2 bg-gray-300 px-6 py-2 rounded-lg font-bold hover:bg-blue-500 transition">
-                    Search
-                </button>
+
+        <div class="space-y-4 mx-auto px-6 container p-4 mb-6">
+
+            <div class="flex flex-wrap gap-2">
+                <a href="{{ route('home') }}"
+                    class="px-4 py-1.5 rounded-full text-xs font-medium border transition 
+           {{ empty($selectedTags) ? 'bg-blue-600 text-white border-blue-600' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100' }}">
+                    All Jobs
+                </a>
+
+                @foreach($tags as $tag)
+                @php
+                $currentSelection = $selectedTags;
+                if (in_array($tag->slug, $currentSelection)) {
+                $currentSelection = array_diff($currentSelection, [$tag->slug]);
+                } else {
+                $currentSelection[] = $tag->slug;
+                }
+                @endphp
+
+                {{-- Professional URL structure: ?tag[]=php&tag[]=laravel --}}
+                <a href="{{ route('home', ['tag' => $currentSelection]) }}"
+                    class="px-4 py-1.5 rounded-full text-xs font-medium border transition 
+               {{ in_array($tag->slug, $selectedTags) ? 'bg-blue-600 text-white border-blue-600' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100' }}">
+                    {{ $tag->name }}
+                </a>
+                @endforeach
             </div>
-
         </div>
 
-        <div class="container px-7 mx-auto mb-6">
-            <h2 class="text-3xl font-bold text-gray-900">All jobs (2)</h2>
-        </div>
         <div class="space-y-4 mx-auto px-6 container">
-            {{-- Eventually, we will wrap this in a @foreach loop --}}
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl font-bold text-blue-600">Senior Laravel Developer</h2>
-                    <div class="text-gray-500 text-sm">
-                        <span>Acme Corp</span> • <span>Remote</span> • <span>$120k - $150k</span>
+            <!-- <h1 class="text-3xl font-bold mb-6">Latest Job Openings</h1> -->
+
+            <div class="space-y-4">
+                @forelse($listings as $listing)
+                <div class="flex items-center p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="flex-shrink-0 w-12 h-12 mr-6">
+                        <img src="{{ $listing->logo ? asset('storage/' . $listing->logo) : asset('images/no-logo.png') }}"
+                            alt="{{ $listing->company_name }}"
+                            class="w-full h-full object-cover rounded-md">
+                    </div>
+
+                    <div class="w-2/5 min-w-[100px] mr-10">
+                        <h2 class="text-xl font-bold text-blue-600 leading-none truncate" title="{{ $listing->title }}">
+                            <a href="{{ route('listings.show', $listing->slug) }}">{{ $listing->title }}</a>
+                        </h2>
+                        <p class="text-gray-600 mt-2 leading-none truncate">{{ $listing->company_name }}</p>
+
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-0">
+                        @foreach($listing->tags as $tag)
+                        <span class="text-[10px] font-bold bg-blue-100 border border-blue-100 text-gray-600 px-2 rounded-sm">
+                            {{ $tag->name }}
+                        </span>
+                        @endforeach
+                    </div>
+                    <div class="ml-auto text-sm text-gray-400">
+                        {{ $listing->created_at->diffForHumans() }}
                     </div>
                 </div>
-                <div>
-                    <a href="/listings/slug-here" class="bg-gray-100 px-4 py-2 rounded text-sm font-semibold hover:bg-gray-200">
-                        Details
-                    </a>
-                </div>
+                @empty
+                <p>No jobs found.</p>
+                @endforelse
             </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl font-bold text-blue-600">Frontend Engineer (React)</h2>
-                    <div class="text-gray-500 text-sm">
-                        <span>StartupX</span> • <span>New York</span> • <span>$100k</span>
-                    </div>
-                </div>
-                <div>
-                    <a href="#" class="bg-gray-100 px-4 py-2 rounded text-sm font-semibold hover:bg-gray-200">
-                        Details
-                    </a>
-                </div>
-            </div>
-
         </div>
 </x-layout>
