@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Listing;
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
+use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ListingController extends Controller
 {
@@ -29,7 +33,44 @@ class ListingController extends Controller
      */
     public function store(StoreListingRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['title']) . '-' . Str::lower(Str::random(5));
+
+        if ($request->hasFile('logo')) {
+            $path = $request->file('logo')->store('logos', 'public');
+            $data['logo'] = $path;
+        }
+
+        try {
+            return DB::transaction(function () use ($data, $request) {
+
+                $listing = $request->user()->listings()->create($data);
+
+                $tagIds = collect(explode(',', $data['tags']))
+                    ->map(fn($t) => trim(strtolower($t)))
+                    ->filter()
+                    ->unique()
+                    ->map(function ($tagName) {
+                        // We find or create the tag. 
+                        // If creating, we must provide the slug for the Tag table too.
+                        $tag = Tag::firstOrCreate(
+                            ['name' => $tagName],
+                            ['slug' => Str::slug($tagName)]
+                        );
+                        return $tag->id;
+                    });
+
+                $listing->tags()->sync($tagIds);
+
+                return redirect()->route('listings.show', [$listing])
+                    ->with('success', 'Job posted successfully! title: ' . $listing->title);
+            });
+        } catch (\Exception $e) {
+            Log::error("Failed to create Listing" . $e->getMessage());
+
+            return back()->withInput()
+                ->withErrors(['error' => 'Something went wrong. Please try again.' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -37,7 +78,8 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
-        //
+        $listing->load('tags');
+        return view('listings.show', ['listing' => $listing]);
     }
 
     /**
