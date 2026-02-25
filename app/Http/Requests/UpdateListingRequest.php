@@ -11,7 +11,7 @@ class UpdateListingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class UpdateListingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string', 'max:255'],
+            'company_name' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'string'],
+            'salary' => ['required', 'string'],
+            'website' => ['required', 'url'],
+            'email' => ['required', 'email'],
+            'tags' => ['required', 'string'],
+            'logo' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048'
+            ],
+            'description' => ['required']
         ];
     }
 }

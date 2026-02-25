@@ -6,8 +6,10 @@ use App\Models\Listing;
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
 use App\Models\Tag;
+use Illuminate\Container\Attributes\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage as FacadesStorage;
 use Illuminate\Support\Str;
 
 class ListingController extends Controller
@@ -87,7 +89,8 @@ class ListingController extends Controller
      */
     public function edit(Listing $listing)
     {
-        //
+        $listing->tags = $listing->tags->pluck('name')->implode(', ');
+        return view('listings.edit', ['listing' => $listing]);
     }
 
     /**
@@ -95,7 +98,35 @@ class ListingController extends Controller
      */
     public function update(UpdateListingRequest $request, Listing $listing)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('logo')) {
+            if ($listing->logo) {
+                FacadesStorage::disk('public')->delete($listing->logo);
+            }
+            $path = $request->file('logo')->store('logos', 'public');
+            $data['logo'] = $path;
+        }
+
+        $listing->update($data);
+
+        if ($request->has('tags')) {
+            $tagIds = collect(explode(',', $request->tags))
+                ->map(fn($t) => trim(strtolower($t)))
+                ->filter()
+                ->map(function ($name) {
+                    return Tag::firstOrCreate(
+                        ['name' => $name],
+                        ['slug' => str()->slug($name)]
+                    )->id;
+                });
+
+            $listing->tags()->sync($tagIds);
+        }
+
+        return redirect()
+            ->route('listings.show', ['listing' => $listing])
+            ->with('message', 'Listing updated successfully!');
     }
 
     /**
@@ -103,6 +134,13 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
-        //
+        if ($listing->logo) {
+            FacadesStorage::disk('public')->delete($listing->logo);
+        }
+
+        $listing->delete();
+
+        return redirect()->route('home')
+            ->with('message', 'Job deleted successfully!');
     }
 }

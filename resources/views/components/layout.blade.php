@@ -12,7 +12,6 @@
 </head>
 
 <body class="bg-gray-50 text-gray-900 antialiased font-sans">
-
     <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <nav class="container mx-auto px-6 h-16 flex items-center justify-between">
             <a href="#" class="text-2xl font-black tracking-tight text-blue-600">
@@ -46,6 +45,8 @@
         {{ $slot }}
     </main>
 
+    <x-flash-msg />
+    
     <footer class="bg-white border-t border-gray-200 py-12">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
