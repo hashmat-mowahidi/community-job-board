@@ -6,8 +6,8 @@ use App\Models\Listing;
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
 use App\Models\Tag;
-use Illuminate\Container\Attributes\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage as FacadesStorage;
 use Illuminate\Support\Str;
@@ -53,8 +53,6 @@ class ListingController extends Controller
                     ->filter()
                     ->unique()
                     ->map(function ($tagName) {
-                        // We find or create the tag. 
-                        // If creating, we must provide the slug for the Tag table too.
                         $tag = Tag::firstOrCreate(
                             ['name' => $tagName],
                             ['slug' => Str::slug($tagName)]
@@ -65,7 +63,7 @@ class ListingController extends Controller
                 $listing->tags()->sync($tagIds);
 
                 return redirect()->route('listings.show', [$listing])
-                    ->with('success', 'Job posted successfully! title: ' . $listing->title);
+                    ->with('success', 'Job posted successfully!');
             });
         } catch (\Exception $e) {
             Log::error("Failed to create Listing" . $e->getMessage());
@@ -89,6 +87,7 @@ class ListingController extends Controller
      */
     public function edit(Listing $listing)
     {
+        Gate::authorize('update', $listing);
         $listing->tags = $listing->tags->pluck('name')->implode(', ');
         return view('listings.edit', ['listing' => $listing]);
     }
@@ -98,6 +97,7 @@ class ListingController extends Controller
      */
     public function update(UpdateListingRequest $request, Listing $listing)
     {
+        Gate::authorize('update', $listing);
         $data = $request->validated();
 
         if ($request->hasFile('logo')) {
@@ -126,7 +126,7 @@ class ListingController extends Controller
 
         return redirect()
             ->route('listings.show', ['listing' => $listing])
-            ->with('message', 'Listing updated successfully!');
+            ->with('success', 'Job updated successfully!');
     }
 
     /**
@@ -134,6 +134,8 @@ class ListingController extends Controller
      */
     public function destroy(Listing $listing)
     {
+
+        Gate::authorize('delete', $listing);
         if ($listing->logo) {
             FacadesStorage::disk('public')->delete($listing->logo);
         }
@@ -141,6 +143,6 @@ class ListingController extends Controller
         $listing->delete();
 
         return redirect()->route('home')
-            ->with('message', 'Job deleted successfully!');
+            ->with('success', 'Job deleted successfully!');
     }
 }

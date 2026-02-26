@@ -1,19 +1,6 @@
 <x-layout>
     <div class="min-h-[80vh] flex flex-col justify-center items-center px-4 py-12">
-
         <div class="w-full max-w-2xl bg-white p-8 border border-gray-200 rounded-2xl shadow-sm">
-
-            @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-                <strong>Whoops!</strong> There were some problems with your input.
-                <ul class="mt-2 list-disc list-inside text-sm">
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-900">Post a New Job</h1>
                 <p class="text-gray-500 mt-2">Find the perfect candidate for your company</p>

@@ -90,6 +90,8 @@
             <div class="p-8 flex flex-col md:flex-row item-start md:item-center gap-6">
                 <div class="flex-1">
                     <div class="flex flex-wrap justify-between gap-4 mt-4 text-sm text-gray-500">
+
+                        @can('update', $listing)
                         <span class="flex items-center gap-4">
 
                             <a href="{{ route('listings.edit', $listing) }}"
@@ -100,14 +102,14 @@
                                 onsubmit="return confirm('Are you sure you want to delete this job?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" 
-                                class="px-4 py-3 text-center text-red-700 border border-gray-300 font-semibold 
+                                <button type="submit"
+                                    class="px-4 py-3 text-center text-red-700 border border-gray-300 font-semibold 
                                 rounded-lg hover:bg-gray-200 cursor-pointer transition">
                                     Delete
                                 </button>
                             </form>
                         </span>
-
+                        @endcan
 
                         <span class="flex items-center gap-1">
 

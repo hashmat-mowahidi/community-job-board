@@ -8,8 +8,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+
+
 Route::resource('/listings', ListingController::class)
-    ->except(['index'])->middleware('auth');
+    ->except(['show', 'index'])
+    ->middleware('auth');
+
+Route::get('/listings/{listing:slug}', [ListingController::class, 'show'])
+    ->name('listings.show');
 
 Route::match(['get', 'post'], '/register', [AuthController::class, 'register'])
     ->name('register')->middleware('guest');

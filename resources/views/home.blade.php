@@ -2,7 +2,7 @@
     <x-slot:title>Home | Community Job Board</x-slot>
 
         <div class="mb-12 text-center">
-            <h1 class="text-4xl font-bold text-gray-900">Find a Developer Job</h1>
+            <h1 class="text-4xl font-bold text-gray-900">Find a Job</h1>
             <p class="text-gray-600 mt-2">The simplest way to browse community postings.</p>
 
             <form action="{{route('home')}}" method="get">
