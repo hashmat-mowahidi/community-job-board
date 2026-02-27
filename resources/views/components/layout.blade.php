@@ -52,9 +52,10 @@
                 </div>
                 <div class="flex space-x-6 text-sm text-gray-400">
                     <span>Terms of Service</span>
-                    <p>&copy; {{ date('Y') }}</p>
-                </div>
+                    <span>&copy; {{ date('Y') }}</span>
                     <span>Privacy Policy</span>
+                </div>
+                    
             </div>
         </div>
     </footer>

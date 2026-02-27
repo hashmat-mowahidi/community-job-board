@@ -6,7 +6,6 @@
             <p class="text-gray-600 mt-2">The simplest way to browse community postings.</p>
 
             <form action="{{route('home')}}" method="get">
-                @csrf
                 @foreach($selectedTags as $sTag)
                 <input type="hidden" name="tag[]" value="{{ $sTag }}">
                 @endforeach
@@ -92,12 +91,17 @@
                         @endforeach
                     </div>
 
+                    @if($listing->isNew())
+                    <span class="m-x-4 bg-green-200 text-green-800 text-xs font-bold px-2 py-1 rounded">
+                        NEW
+                    </span>
+                    @endif
                     <div class="ml-auto text-sm text-gray-400">
                         {{ $listing->created_at->diffForHumans() }}
                     </div>
                 </div>
                 @empty
-                <p>No jobs found.</p>
+                <p>No jobs found</p>
                 @endforelse
 
             </div>

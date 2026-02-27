@@ -21,6 +21,7 @@ class ListingFactory extends Factory
         $min = fake()->numberBetween(30, 200);
         $max = $min + fake()->numberBetween(5, 25);
         return [
+            'user_id' => User::factory(),
             'title' => $title,
             'company_name' => fake()->company(),
             'location' => fake()->city() . ', ' .  fake()->stateAbbr(),

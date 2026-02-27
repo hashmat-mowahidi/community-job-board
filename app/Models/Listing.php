@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Listing extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'user_id',
         'title',
@@ -37,5 +37,10 @@ class Listing extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function isNew(): bool
+    {
+        return $this->created_at->greaterThanOrEqualTo(now()->subDay(2));
     }
 }
