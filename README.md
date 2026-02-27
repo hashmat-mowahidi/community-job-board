@@ -23,10 +23,22 @@ We implemented a strict Policy-based security layer.
 * **Many-to-Many Tagging:** Comprehensive filtering system allowing users to browse jobs by tech stack (e.g., PHP, Vue, Laravel).
 * **SEO Friendly Slugs:** Utilizes `getRouteKeyName()` to provide human-readable URLs (e.g., `/listings/senior-laravel-developer`) instead of database IDs.
 
-### ⏱️ Smart Time Logic
-* **Carbon Integration:** Dynamic "New" badge logic using:
-  `$this->created_at->greaterThanOrEqualTo(now()->subDay())`
-  to identify listings posted within the last 24 hours.
+### 🏗️ Technical Architecture
+<details>
+<summary><b>Click to expand: Validation & Data Strategy & Smart Time Logic</b></summary>
+
+* **Server-Side Validation:** Utilizes FormRequest classes to decouple validation logic from controllers, ensuring clean, reusable, and highly secure data entry.
+* **Database Seeding:** A robust Seeder system is included that automatically generates:
+    1. One Admin User (admin@example.com / password) for immediate testing of protected routes.
+    2. 30+ categorized job listings with associated tags.
+* **Model Factories:** Extensive use of Factories to maintain a consistent state across Development and Testing environments.
+* **Carbon Integration:** Dynamic "New" badge logic to identify listings posted within the last 24 hours.
+</details>
+
+### 🎨 Frontend & Design
+* **Tailwind CSS:** Fully responsive UI built with Utility-First CSS for a modern, high-performance look.
+* **Dynamic Assets:** Custom Logo integration and dynamic image handling via Laravel's Storage system.
+* **Blade Components:** Reusable UI components (layout, flash message) to maintain design consistency.
 
 ---
 
@@ -48,29 +60,6 @@ This project maintains high code quality through a rigorous testing suite using 
 php artisan test --parallel
 
 ```
-
----
-
-## 🏗️ Technical Architecture
-<details>
-<summary><b>Click to expand: Validation & Data Strategy</b></summary>
-
-Server-Side Validation: Utilizes FormRequest classes to decouple validation logic from controllers, ensuring clean, reusable, and highly secure data entry.
-
-Database Seeding: A robust Seeder system is included that automatically generates:
-
-One Admin User (admin@example.com / password) for immediate testing of protected routes.
-
-30+ categorized job listings with associated tags.
-
-Model Factories: Extensive use of Factories to maintain a consistent state across Development and Testing environments.
-</details>
-
-## 🎨 Frontend & Design
-* **Tailwind CSS:** Fully responsive UI built with Utility-First CSS for a modern, high-performance look.
-* **Dynamic Assets:** Custom Logo integration and dynamic image handling via Laravel's Storage system.
-* **Blade Components:** Reusable UI components (buttons, inputs, cards) to maintain design consistency.
-
 --- 
 
 ## ⚙️ Configuration & Setup
