@@ -1,56 +1,44 @@
-# 🚀 Professional Job Board API (Laravel 12 + Pest)
-A robust, test-driven job board backend built with Laravel 11 and Pest PHP. This project showcases modern PHP practices, including Route Model Binding by slugs, Many-to-Many relationships, and a 100% Feature-Tested authorization system.
+# 🚀 Professional Job Board Backend
 
-## 🛠️ Tech Stack
+[![Laravel Version](https://img.shields.io/badge/Laravel-11.x-red)](https://laravel.com)
+[![Pest Version](https://img.shields.io/badge/Pest-3.x-blue)](https://pestphp.com)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 
-- **Framework:** Laravel 12.x
-- **Testing:** Pest PHP (Feature & Unit)
+A modern, high-performance Job Board application built with **Laravel 11** and **Pest PHP**. This project focuses on Clean Code, Test-Driven Development (TDD), and strict security policies.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌟 Key Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🔍 Advanced Search & Discovery
+* **Full-text Search:** Case-insensitive filtering of job listings by title.
+* **Many-to-Many Tagging:** Comprehensive filtering system allowing users to browse jobs by tech stack (e.g., PHP, Vue, Laravel).
+* **SEO Friendly Slugs:** Utilizes `getRouteKeyName()` to provide human-readable URLs (e.g., `/listings/senior-laravel-developer`) instead of database IDs.
 
-## Learning Laravel
+### 🛡️ Secure Authorization
+* **Policy-Driven Access:** Built-in `ListingPolicy` ensures that only the original creator can update or delete a job listing.
+* **Middleware Protection:** Guests are restricted to "View Only" access, while authenticated users can manage their own content.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### ⏱️ Smart Time Logic
+* **Carbon Integration:** Dynamic "New" badge logic using:
+  `$this->created_at->greaterThanOrEqualTo(now()->subDay())`
+  to identify listings posted within the last 24 hours.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🧪 Testing Suite (The "Gold Standard")
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+This project maintains high code quality through a rigorous testing suite using **Pest PHP**. We follow the **AAA (Arrange, Act, Assert)** pattern and utilize **Parallel Testing** for maximum efficiency.
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
+### Feature Tests Included:
+* **SearchTest:** Verifies that search queries return accurate results and handle "no results" states gracefully.
+* **TagTest:** Validates the many-to-many relationship and array-based filtering.
+* **ListingAuthorizationTest:** Crucial security tests proving that:
+    1. Owners can update their listings.
+    2. Strangers are blocked (403 Forbidden) from modifying other users' data.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Run the tests:**
+```bash
+php artisan test --parallel
