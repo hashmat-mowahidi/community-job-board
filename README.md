@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# Connectify | Job Board
+# Community Job Board
 
 [![Laravel Version](https://img.shields.io/badge/Laravel-12.x-red)](https://laravel.com)
 [![Pest Version](https://img.shields.io/badge/Pest-3.x-blue)](https://pestphp.com)
