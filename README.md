@@ -1,14 +1,17 @@
+
 <div align="center">
+
 # Connectify | Modern Job Board
 
 [![Laravel Version](https://img.shields.io/badge/Laravel-12.x-red)](https://laravel.com)
 [![Pest Version](https://img.shields.io/badge/Pest-3.x-blue)](https://pestphp.com)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 
-**A high-performance recruitment platform built with Laravel 12 and Pest PHP**. 
+**A high-performance recruitment platform built with Laravel 12 and Pest PHP.**
 Featuring real-time filtering, secure role-based access, and a pixel-perfect Tailwind UI.
 
 </div>
+
 ---
 
 ## 🌟 Key Features
