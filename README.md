@@ -31,11 +31,9 @@ We implemented a strict Policy-based security layer.
 
 
 ### 🏗️ Technical Architecture
-* **Server-Side Validation:** Utilizes FormRequest classes to decouple validation logic from controllers, ensuring clean, reusable, and highly secure data entry.
-* **Database Seeding:** A robust Seeder system is included that automatically generates:
-    1. One Admin User (admin@example.com / password) for immediate testing of protected routes.
-    2. 30+ categorized job listings with associated tags.
-* **Model Factories:** Extensive use of Factories to maintain a consistent state across Development and Testing environments.
+* **FormRequest Validation:** Decoupled validation logic for cleaner controllers and secure data entry.
+* **Robust Seeding:** Auto-generates an Admin Account (admin@example.com / password) and 30+ categorized listings with tags for instant testing.
+* **Model Factories:** Used extensively to ensure consistent data states across development and testing.
 * **Carbon Integration:** Dynamic "New" badge logic to identify listings posted within the last 24 hours.
 
 ### 🎨 Frontend & Design
