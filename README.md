@@ -1,11 +1,14 @@
-# 🚀 Professional Job Board Backend
+<div align="center">
+# Connectify | Modern Job Board
 
 [![Laravel Version](https://img.shields.io/badge/Laravel-12.x-red)](https://laravel.com)
 [![Pest Version](https://img.shields.io/badge/Pest-3.x-blue)](https://pestphp.com)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 
-A modern, high-performance Job Board application built with **Laravel 12** and **Pest PHP**. This project focuses on Clean Code, Test-Driven Development (TDD), and strict security policies.
+**A high-performance recruitment platform built with Laravel 12 and Pest PHP**. 
+Featuring real-time filtering, secure role-based access, and a pixel-perfect Tailwind UI.
 
+</div>
 ---
 
 ## 🌟 Key Features
@@ -23,17 +26,14 @@ We implemented a strict Policy-based security layer.
 * **Many-to-Many Tagging:** Comprehensive filtering system allowing users to browse jobs by tech stack (e.g., PHP, Vue, Laravel).
 * **SEO Friendly Slugs:** Utilizes `getRouteKeyName()` to provide human-readable URLs (e.g., `/listings/senior-laravel-developer`) instead of database IDs.
 
-### 🏗️ Technical Architecture
-<details>
-<summary><b>Click to expand: Validation & Data Strategy & Smart Time Logic</b></summary>
 
+### 🏗️ Technical Architecture
 * **Server-Side Validation:** Utilizes FormRequest classes to decouple validation logic from controllers, ensuring clean, reusable, and highly secure data entry.
 * **Database Seeding:** A robust Seeder system is included that automatically generates:
     1. One Admin User (admin@example.com / password) for immediate testing of protected routes.
     2. 30+ categorized job listings with associated tags.
 * **Model Factories:** Extensive use of Factories to maintain a consistent state across Development and Testing environments.
 * **Carbon Integration:** Dynamic "New" badge logic to identify listings posted within the last 24 hours.
-</details>
 
 ### 🎨 Frontend & Design
 * **Tailwind CSS:** Fully responsive UI built with Utility-First CSS for a modern, high-performance look.
@@ -92,3 +92,9 @@ php artisan key:generate
 ```bash
 php artisan migrate --seed
 ```
+
+### Quick Demo:
+
+* **Login:** admin@example.com
+
+* **Pass:** password
