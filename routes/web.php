@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\UserListingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,3 +26,7 @@ Route::match(['get', 'post'], '/login', [AuthController::class, 'login'])
 
 Route::get('/logout', [AuthController::class, 'logout'])
     ->name('logout')->middleware('auth');
+
+Route::get('/my-listings', [UserListingController::class, 'index'])
+    ->name('listings.user')
+    ->middleware('auth');

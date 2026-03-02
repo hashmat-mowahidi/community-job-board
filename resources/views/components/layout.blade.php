@@ -21,17 +21,23 @@
             <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
 
                 @auth
-                <!-- <a href="/dashboard" class="hover:text-blue-600 transition">My Postings</a> -->
+                <a href="{{route('listings.user')}}"
+                    class="{{ request()->routeIs('listings.user') 
+            ? 'bg-indigo-700 text-white' 
+            : 'text-indigo-100 hover:bg-indigo-500 hover:text-white' }}
+                    px-3 py-2 rounded-md text-sm font-medium transition duration-150">My Listings</a>
                 <a href="{{route('listings.create')}}"
-                    class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+                    class="text-gray-600 px-5 py-2 rounded-lg hover:bg-blue-600 transition">
                     Post a Job
                 </a>
-                <a href="{{ route('logout') }}" class="text-gray-600 hover:text-blue-600 transition">
+                <a href="{{ route('logout') }}"
+                    class="text-gray-600 hover:text-blue-600 transition">
                     Logout
                 </a>
 
                 @else
-                <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 transition">Login</a>
+                <a href="{{ route('login') }}"
+                    class="text-gray-600 hover:text-blue-600 transition">Login</a>
                 @endauth
             </div>
         </nav>
@@ -55,7 +61,7 @@
                     <span>&copy; {{ date('Y') }}</span>
                     <span>Privacy Policy</span>
                 </div>
-                    
+
             </div>
         </div>
     </footer>

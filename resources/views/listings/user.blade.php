@@ -1,0 +1,80 @@
+<x-layout>
+    <x-slot:title>My Job Listing</x-slot>
+
+        <div class="mb-12 text-center">
+            <h1 class="text-4xl font-bold text-gray-900">My Job Listings</h1>
+            <!-- <p class="text-gray-600 mt-2">The simplest way to browse community postings.</p> -->
+
+            <form action="{{route('home')}}" method="get">
+                <div class="mt-10 max-w-xl mx-auto relative">
+                    <input type="text" name="search"
+                        value="{{ request('search') }}"
+                        placeholder="Search job titles or companies..."
+                        class="w-full p-4 rounded-lg border border-gray-300 shadow-sm">
+                    <button class="absolute right-2 top-2 bg-gray-300 px-6 py-2 rounded-lg cursor-pointer
+                font-bold hover:bg-blue-500 transition">
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="space-y-4 mx-auto px-6 container">
+            <!-- <h1 class="text-3xl font-bold mb-6">Latest Job Openings</h1> -->
+<a href="{{ route('home') }}" class="text-sm font-semibold text-gray-500 hover:text-blue-600 mb-4 inline-block">
+            &larr; Back to all jobs
+        </a>
+            <div class="space-y-4">
+                @forelse($listings as $listing)
+                <div class="flex-1 flex items-center p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="flex-shrink-0 w-12 h-12 mr-6">
+
+
+                        @if($listing->logo)
+                        <img src="{{ asset('storage/' . $listing->logo) }}"
+                            alt="{{ $listing->company_name }}"
+                            class="w-full h-full rounded-lg object-cover">
+                        @else
+                        <div class="w-full h-full rounded-full bg-white border-2 
+                        border-blue-200 flex items-center justify-center shadow-md">
+                            <span class="text-blue-600 font-bold text-2xl uppercase tracking-tighter">
+                                {{ substr($listing->company_name, 0, 1) }}
+                            </span>
+                        </div>
+                        @endif
+
+                    </div>
+
+                    <div class="w-2/5 min-w-[100px] mr-10">
+                        <h2 class="text-xl font-bold text-blue-600 leading-none truncate" title="{{ $listing->title }}">
+                            <a href="{{ route('listings.show', $listing->slug) }}">{{ $listing->title }}</a>
+                        </h2>
+                        <p class="text-gray-600 mt-2 leading-none truncate">{{ $listing->company_name }}</p>
+
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-0 w-2/5 min-w-0">
+                        @foreach($listing->tags as $tag)
+                        <span class="text-xs font-medium bg-gray-50 border border-gray-200 text-gray-600 
+                        px-2 rounded-full transition">
+                            {{ $tag->name }}
+                        </span>
+                        @endforeach
+                    </div>
+
+                    @if($listing->isNew())
+                    <span class="m-x-4 bg-green-200 text-green-800 text-xs font-bold px-2 py-1 rounded">
+                        NEW
+                    </span>
+                    @endif
+                    <div class="ml-auto text-sm text-gray-400">
+                        {{ $listing->created_at->diffForHumans() }}
+                    </div>
+                </div>
+                @empty
+                <p>No jobs found</p>
+                @endforelse
+
+            </div>
+
+        </div>
+</x-layout>
