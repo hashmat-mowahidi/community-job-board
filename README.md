@@ -7,7 +7,7 @@
 [![Pest Version](https://img.shields.io/badge/Pest-3.x-blue)](https://pestphp.com)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 
-**A high-performance recruitment platform built with Laravel 12 and Pest PHP.**  
+**A high-performance recruitment platform built with Laravel 12, Pest PHP and RESTful API.**  
 Featuring real-time filtering, secure role-based access, and a pixel-perfect Tailwind UI.
 
 </div>
@@ -31,9 +31,12 @@ We implemented a strict Policy-based security layer.
 
 
 ### 🏗️ Technical Architecture
-* **FormRequest Validation:** Decoupled validation logic for cleaner controllers and secure data entry.
-* **Robust Seeding:** Auto-generates an Admin Account (admin@example.com / password) and 30+ categorized listings with tags for instant testing.
+* **RESTful API Integration:** A fully functional JSON API located at /api/user/listings.  
+It supports dynamic pagination and search, secured by Laravel Sanctum.
 * **Model Factories:** Used extensively to ensure consistent data states across development and testing.
+* **Robust Seeding:** Auto-generates an Admin Account (admin@example.com / password) and 30+ categorized listings with tags for instant testing.
+* **Service Layer:** Centralized all business logic to ensure both the Web Controllers and API Controllers share the same logic, making the codebase "DRY" (Don't Repeat Yourself).
+* **FormRequest Validation:** Decoupled validation logic for cleaner controllers and secure data entry.
 * **Carbon Integration:** Dynamic "New" badge logic to identify listings posted within the last 24 hours.
 
 ### 🎨 Frontend & Design
@@ -63,6 +66,13 @@ php artisan test --parallel
 ```
 --- 
 
+## 📡 API Reference
+`GET /api/user/listings`
+* **Auth:** Bearer Token (Sanctum)
+* **Params:**  `search` (string), `per_page` (int, max 100)
+* **Function:** Returns a paginated list of the authenticated user's job postings.
+---
+
 ## ⚙️ Configuration & Setup
 
 ### 1️⃣ Prerequisites
@@ -90,10 +100,13 @@ php artisan key:generate
 * **Open .env and configure your database settings to match XAMPP (usually)**
 
 
-### 4️⃣ Database Migration & Seeding
+### 4️⃣ Database Migration & Seeding & API
 
 ```bash
 php artisan migrate --seed
+
+# To initialize the API system and Sanctum:
+php artisan install:api
 ```
 
 ### Quick Demo:
