@@ -15,10 +15,17 @@ class UserListingController extends Controller
         private readonly ListingService $listingService
     ) {}
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
+        $perPage = (int) $request->validate([
+            'per_page' => 'integer|min:1|max:100'
+        ])['per_page'] ?? 10;
 
-        $listings = $this->listingService->getListingForUser(Auth::user());
+        $listings = $this->listingService->getListingForUser(
+            user: Auth::user(),
+            search: $request->query('search'),
+            perPage: $perPage
+        );
         return response()->json([
             'status' => 'success',
             'listing' => $listings

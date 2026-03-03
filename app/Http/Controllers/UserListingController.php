@@ -14,10 +14,15 @@ class UserListingController extends Controller
         private readonly ListingService $listingService
     ) {}
 
-    public function index(): View
+    public function index(Request $request): View
     {
+    
+        $listings = $this->listingService->getListingForUser(
+            user: Auth::user(),
+            search: $request->query('search')
+        )
+            ->withQueryString();
 
-        $listings = $this->listingService->getListingForUser(Auth::user());
         return view('listings.user', ['listings' => $listings]);
     }
 }

@@ -4,13 +4,21 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class ListingService
 {
 
-    public function getListingForUser(User $user): Collection
+    public function getListingForUser(User $user, ?string $search = null, int $perPage = 10): LengthAwarePaginator
     {
-        return $user->listings()->with('tags')->latest()->get();
+        $query = $user->listings()->with('tags')->latest();
+        $query = $query->when($search, function ($q) use ($search) {
+            $q->where(function ($innerQuery) use ($search) {
+                $innerQuery->where('title', 'like', "%{$search}%")
+                    ->orWhere('company_name', 'like', "%{$search}%");
+            });
+        })->paginate($perPage);
+
+        return $query;
     }
 }

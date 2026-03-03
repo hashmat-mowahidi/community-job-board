@@ -19,15 +19,22 @@
             </a>
 
             <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
-
+                <a href="{{ route('home') }}"
+                    class="{{ request()->routeIs('home') 
+                        ? 'text-blue-600 underline underline-offset-6' 
+                        : 'text-gray-600' }}
+                        hover:text-blue-600 transition">Home</a>
                 @auth
                 <a href="{{route('listings.user')}}"
                     class="{{ request()->routeIs('listings.user') 
-            ? 'bg-indigo-700 text-white' 
-            : 'text-indigo-100 hover:bg-indigo-500 hover:text-white' }}
-                    px-3 py-2 rounded-md text-sm font-medium transition duration-150">My Listings</a>
+                        ? 'text-blue-600 underline underline-offset-6' 
+                        : 'text-gray-600' }}
+                        hover:text-blue-600 transition">My Listings</a>
                 <a href="{{route('listings.create')}}"
-                    class="text-gray-600 px-5 py-2 rounded-lg hover:bg-blue-600 transition">
+                    class="{{ request()->routeIs('listings.create') 
+                        ? 'text-blue-600 underline underline-offset-6' 
+                        : 'text-gray-600' }}
+                        hover:text-blue-600 transition">
                     Post a Job
                 </a>
                 <a href="{{ route('logout') }}"
@@ -36,8 +43,12 @@
                 </a>
 
                 @else
+
                 <a href="{{ route('login') }}"
-                    class="text-gray-600 hover:text-blue-600 transition">Login</a>
+                    class="{{ request()->routeIs('login') 
+                        ? 'text-blue-600 underline underline-offset-6' 
+                        : 'text-gray-600' }}
+                        hover:text-blue-600 transition">Login</a>
                 @endauth
             </div>
         </nav>
